@@ -1,0 +1,401 @@
+Thu 09 Jan 2025 19:15:07 INFO ██Server: 	main-15
+Thu 09 Jan 2025 19:15:07 INFO ██Dir: 	/home/gutang/A-Conf
+
+Thu 09 Jan 2025 19:15:07 INFO 
+gpu_id=5
+use_gpu=True
+seed=[999]
+data_path=./data/
+inter_splitting_label=x_label
+filter_out_cod_start_users=True
+is_multimodal_model=True
+checkpoint_dir=saved
+save_recommended_topk=True
+recommend_topk=recommend_topk/
+embedding_size=64
+epochs=200
+stopping_step=40
+train_batch_size=1024
+learner=adam
+learning_rate=[0.001]
+learning_rate_scheduler=[0.96, 120]
+eval_step=1
+training_neg_sample_num=1
+use_neg_sampling=True
+use_full_sampling=False
+NEG_PREFIX=neg__
+USER_ID_FIELD=userID
+ITEM_ID_FIELD=itemID
+TIME_FIELD=timestamp
+field_separator=	
+metrics=['Recall', 'NDCG']
+topk=[10, 20]
+valid_metric=Recall@20
+eval_batch_size=4096
+use_raw_features=False
+max_txt_len=32
+max_img_size=256
+vocab_size=30522
+type_vocab_size=2
+hidden_size=4
+pad_token_id=0
+max_position_embeddings=512
+layer_norm_eps=1e-12
+hidden_dropout_prob=0.1
+end2end=False
+hyper_parameters=['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']
+TS_data=['sports']
+start_TS=False
+TS_batch_size=256
+TS_epoch=200
+load_meta_cols=['itemID', 'description', 'title', 'category']
+TEXT_ID_FIELD=description
+inter_file_name=clothing14-indexed-v4.inter
+text_file_name=meta-clothing-indexed.csv
+img_dir_name=img
+vision_feature_file=image_feat.npy
+text_feature_file=text_feat-v1.npy
+user_graph_dict_file=user_graph_dict.npy
+feat_embed_dim=64
+n_layers=2
+mm_image_weight=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+aggr_mode=['add']
+knn_k=[5, 10, 20]
+k=[30, 40, 50]
+n_mm_layers=[1, 2]
+u_layers=[1, 2]
+reg_weight=[0.01]
+model=Cleaner
+dataset=clothing
+valid_metric_bigger=True
+device=cuda
+
+
+Thu 09 Jan 2025 19:15:07 INFO clothing
+The number of users: 39387
+Average actions of users: 7.075354812501587
+The number of items: 23033
+Average actions of items: 12.099031823904832
+The number of inters: 278677
+The sparsity of the dataset: 99.969281661909%
+Thu 09 Jan 2025 19:15:07 INFO 
+====Training====
+clothing
+The number of users: 39387
+Average actions of users: 5.010231802371341
+The number of items: 23020
+Average actions of items: 8.572458731537793
+The number of inters: 197338
+The sparsity of the dataset: 99.97823530928596%
+Thu 09 Jan 2025 19:15:07 INFO 
+====Validation====
+clothing
+The number of users: 39387
+Average actions of users: 1.0193718739685682
+The number of items: 16702
+Average actions of items: 2.4039037241048975
+The number of inters: 40150
+The sparsity of the dataset: 99.99389670773579%
+Thu 09 Jan 2025 19:15:07 INFO 
+====Testing====
+clothing
+The number of users: 39387
+Average actions of users: 1.0457511361616778
+The number of items: 16803
+Average actions of items: 2.451288460393977
+The number of inters: 41189
+The sparsity of the dataset: 99.99377640221293%
+Thu 09 Jan 2025 19:15:14 INFO 
+
+=================================
+
+
+Thu 09 Jan 2025 19:15:14 INFO =========1/324: Parameters:['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999)=======
+Thu 09 Jan 2025 19:15:41 INFO Cleaner(
+  (dropout): Dropout(p=0.3, inplace=False)
+  (MLP_t): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_v): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_t_1): Linear(in_features=384, out_features=384, bias=True)
+  (MLP_v_1): Linear(in_features=384, out_features=384, bias=True)
+  (text_decompose): ModalDecompose(
+    (decompose_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+      (2): Linear(in_features=384, out_features=384, bias=True)
+    )
+    (decouple_com): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_com_2): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe_2): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_com_3): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe_3): Linear(in_features=384, out_features=384, bias=True)
+    (ln): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+  )
+  (text_club): CLUB(
+    (mu_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): ReLU()
+    )
+    (logvar_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): ReLU()
+    )
+  )
+  (image_decompose): ModalDecompose(
+    (decompose_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+      (2): Linear(in_features=384, out_features=384, bias=True)
+    )
+    (decouple_com): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_com_2): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe_2): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_com_3): Linear(in_features=384, out_features=384, bias=True)
+    (decouple_spe_3): Linear(in_features=384, out_features=384, bias=True)
+    (ln): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+  )
+  (image_club): CLUB(
+    (mu_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): ReLU()
+    )
+    (logvar_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): ReLU()
+    )
+  )
+  (cross_rec): Corss_Rec(
+    (text_linear): Linear(in_features=384, out_features=384, bias=True)
+    (image_linear): Linear(in_features=384, out_features=384, bias=True)
+    (ln): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+    (text_rec): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=384, out_features=384, bias=True)
+    )
+    (image_rec): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=384, out_features=384, bias=True)
+    )
+    (rec_loss_func): MSELoss()
+  )
+  (user_linear): Linear(in_features=384, out_features=384, bias=True)
+  (IB_model): IBModel(
+    (mu_layer): Linear(in_features=384, out_features=384, bias=True)
+    (logvar_layer): Linear(in_features=384, out_features=384, bias=True)
+    (ln): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+    (c_layer): Linear(in_features=384, out_features=384, bias=True)
+  )
+  (FreeIB_model): FreeIBModel(
+    (linear): Linear(in_features=384, out_features=384, bias=True)
+    (ln): LayerNorm((384,), eps=1e-05, elementwise_affine=True)
+    (c_layer): Sequential(
+      (0): Linear(in_features=384, out_features=384, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=384, out_features=384, bias=True)
+      (3): Sigmoid()
+    )
+  )
+)
+Trainable parameters: 62848512
+Thu 09 Jan 2025 19:15:55 INFO epoch 0 training [time: 13.95s, train loss: 255.1514]
+Thu 09 Jan 2025 19:16:02 INFO epoch 0 test result: 
+	recall@10: 0.0604    recall@20: 0.0887    ndcg@10: 0.0331    ndcg@20: 0.0402    
+Thu 09 Jan 2025 19:16:02 INFO best result: 
+	recall@10: 0.0604    recall@20: 0.0887    ndcg@10: 0.0331    ndcg@20: 0.0402    
+Thu 09 Jan 2025 19:16:02 INFO best epoch: 
+	recall@10: 0         recall@20: 0         ndcg@10: 0         ndcg@20: 0         
+
+Thu 09 Jan 2025 19:16:16 INFO epoch 1 training [time: 13.92s, train loss: 166.2957]
+Thu 09 Jan 2025 19:16:22 INFO epoch 1 test result: 
+	recall@10: 0.0634    recall@20: 0.0937    ndcg@10: 0.0349    ndcg@20: 0.0426    
+Thu 09 Jan 2025 19:16:22 INFO best result: 
+	recall@10: 0.0634    recall@20: 0.0937    ndcg@10: 0.0349    ndcg@20: 0.0426    
+Thu 09 Jan 2025 19:16:22 INFO best epoch: 
+	recall@10: 1         recall@20: 1         ndcg@10: 1         ndcg@20: 1         
+
+Thu 09 Jan 2025 19:16:36 INFO epoch 2 training [time: 13.84s, train loss: 153.8836]
+Thu 09 Jan 2025 19:16:42 INFO epoch 2 test result: 
+	recall@10: 0.0661    recall@20: 0.0969    ndcg@10: 0.0359    ndcg@20: 0.0437    
+Thu 09 Jan 2025 19:16:42 INFO best result: 
+	recall@10: 0.0661    recall@20: 0.0969    ndcg@10: 0.0359    ndcg@20: 0.0437    
+Thu 09 Jan 2025 19:16:42 INFO best epoch: 
+	recall@10: 2         recall@20: 2         ndcg@10: 2         ndcg@20: 2         
+
+Thu 09 Jan 2025 19:16:56 INFO epoch 3 training [time: 13.98s, train loss: 146.9046]
+Thu 09 Jan 2025 19:17:02 INFO epoch 3 test result: 
+	recall@10: 0.0674    recall@20: 0.0975    ndcg@10: 0.0367    ndcg@20: 0.0444    
+Thu 09 Jan 2025 19:17:02 INFO best result: 
+	recall@10: 0.0674    recall@20: 0.0975    ndcg@10: 0.0367    ndcg@20: 0.0444    
+Thu 09 Jan 2025 19:17:02 INFO best epoch: 
+	recall@10: 3         recall@20: 3         ndcg@10: 3         ndcg@20: 3         
+
+Thu 09 Jan 2025 19:17:16 INFO epoch 4 training [time: 13.93s, train loss: 141.6036]
+Thu 09 Jan 2025 19:17:22 INFO epoch 4 test result: 
+	recall@10: 0.0686    recall@20: 0.0978    ndcg@10: 0.0371    ndcg@20: 0.0444    
+Thu 09 Jan 2025 19:17:22 INFO best result: 
+	recall@10: 0.0686    recall@20: 0.0978    ndcg@10: 0.0371    ndcg@20: 0.0444    
+Thu 09 Jan 2025 19:17:22 INFO best epoch: 
+	recall@10: 4         recall@20: 4         ndcg@10: 4         ndcg@20: 3         
+
+Thu 09 Jan 2025 19:17:36 INFO epoch 5 training [time: 13.94s, train loss: 137.3504]
+Thu 09 Jan 2025 19:17:42 INFO epoch 5 test result: 
+	recall@10: 0.0680    recall@20: 0.0991    ndcg@10: 0.0372    ndcg@20: 0.0451    
+Thu 09 Jan 2025 19:17:42 INFO best result: 
+	recall@10: 0.0686    recall@20: 0.0991    ndcg@10: 0.0372    ndcg@20: 0.0451    
+Thu 09 Jan 2025 19:17:42 INFO best epoch: 
+	recall@10: 4         recall@20: 5         ndcg@10: 5         ndcg@20: 5         
+
+Thu 09 Jan 2025 19:17:56 INFO epoch 6 training [time: 13.99s, train loss: 133.6710]
+Thu 09 Jan 2025 19:18:03 INFO epoch 6 test result: 
+	recall@10: 0.0686    recall@20: 0.0999    ndcg@10: 0.0374    ndcg@20: 0.0453    
+Thu 09 Jan 2025 19:18:03 INFO best result: 
+	recall@10: 0.0686    recall@20: 0.0999    ndcg@10: 0.0374    ndcg@20: 0.0453    
+Thu 09 Jan 2025 19:18:03 INFO best epoch: 
+	recall@10: 4         recall@20: 6         ndcg@10: 6         ndcg@20: 6         
+
+Thu 09 Jan 2025 19:18:17 INFO epoch 7 training [time: 14.01s, train loss: 130.6505]
+Thu 09 Jan 2025 19:18:23 INFO epoch 7 test result: 
+	recall@10: 0.0686    recall@20: 0.1000    ndcg@10: 0.0376    ndcg@20: 0.0455    
+Thu 09 Jan 2025 19:18:23 INFO best result: 
+	recall@10: 0.0686    recall@20: 0.1000    ndcg@10: 0.0376    ndcg@20: 0.0455    
+Thu 09 Jan 2025 19:18:23 INFO best epoch: 
+	recall@10: 4         recall@20: 7         ndcg@10: 7         ndcg@20: 7         
+
+Thu 09 Jan 2025 19:18:37 INFO epoch 8 training [time: 13.88s, train loss: 127.8124]
+Thu 09 Jan 2025 19:18:43 INFO epoch 8 test result: 
+	recall@10: 0.0688    recall@20: 0.1018    ndcg@10: 0.0378    ndcg@20: 0.0462    
+Thu 09 Jan 2025 19:18:43 INFO best result: 
+	recall@10: 0.0688    recall@20: 0.1018    ndcg@10: 0.0378    ndcg@20: 0.0462    
+Thu 09 Jan 2025 19:18:43 INFO best epoch: 
+	recall@10: 8         recall@20: 8         ndcg@10: 8         ndcg@20: 8         
+
+Thu 09 Jan 2025 19:18:57 INFO epoch 9 training [time: 13.89s, train loss: 125.3767]
+Thu 09 Jan 2025 19:19:03 INFO epoch 9 test result: 
+	recall@10: 0.0698    recall@20: 0.1016    ndcg@10: 0.0379    ndcg@20: 0.0460    
+Thu 09 Jan 2025 19:19:03 INFO best result: 
+	recall@10: 0.0698    recall@20: 0.1018    ndcg@10: 0.0379    ndcg@20: 0.0462    
+Thu 09 Jan 2025 19:19:03 INFO best epoch: 
+	recall@10: 9         recall@20: 8         ndcg@10: 9         ndcg@20: 8         
+
+Thu 09 Jan 2025 19:19:17 INFO epoch 10 training [time: 13.95s, train loss: 123.3379]
+Thu 09 Jan 2025 19:19:23 INFO epoch 10 test result: 
+	recall@10: 0.0701    recall@20: 0.1019    ndcg@10: 0.0381    ndcg@20: 0.0462    
+Thu 09 Jan 2025 19:19:23 INFO best result: 
+	recall@10: 0.0701    recall@20: 0.1019    ndcg@10: 0.0381    ndcg@20: 0.0462    
+Thu 09 Jan 2025 19:19:23 INFO best epoch: 
+	recall@10: 10         recall@20: 10         ndcg@10: 10         ndcg@20: 8         
+
+Thu 09 Jan 2025 19:19:37 INFO epoch 11 training [time: 13.98s, train loss: 121.4319]
+Thu 09 Jan 2025 19:19:43 INFO epoch 11 test result: 
+	recall@10: 0.0705    recall@20: 0.1028    ndcg@10: 0.0383    ndcg@20: 0.0465    
+Thu 09 Jan 2025 19:19:49 INFO best result: 
+	recall@10: 0.0705    recall@20: 0.1028    ndcg@10: 0.0383    ndcg@20: 0.0465    
+Thu 09 Jan 2025 19:19:49 INFO best epoch: 
+	recall@10: 11         recall@20: 11         ndcg@10: 11         ndcg@20: 11         
+
+Thu 09 Jan 2025 19:20:03 INFO epoch 12 training [time: 13.91s, train loss: 119.7752]
+Thu 09 Jan 2025 19:20:09 INFO epoch 12 test result: 
+	recall@10: 0.0704    recall@20: 0.1035    ndcg@10: 0.0383    ndcg@20: 0.0467    
+Thu 09 Jan 2025 19:20:13 INFO best result: 
+	recall@10: 0.0705    recall@20: 0.1035    ndcg@10: 0.0383    ndcg@20: 0.0467    
+Thu 09 Jan 2025 19:20:13 INFO best epoch: 
+	recall@10: 11         recall@20: 12         ndcg@10: 11         ndcg@20: 12         
+
+Thu 09 Jan 2025 19:20:27 INFO epoch 13 training [time: 13.94s, train loss: 118.2559]
+Thu 09 Jan 2025 19:20:33 INFO epoch 13 test result: 
+	recall@10: 0.0708    recall@20: 0.1020    ndcg@10: 0.0384    ndcg@20: 0.0463    
+Thu 09 Jan 2025 19:20:38 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1035    ndcg@10: 0.0384    ndcg@20: 0.0467    
+Thu 09 Jan 2025 19:20:38 INFO best epoch: 
+	recall@10: 13         recall@20: 12         ndcg@10: 13         ndcg@20: 12         
+
+Thu 09 Jan 2025 19:20:52 INFO epoch 14 training [time: 14.12s, train loss: 116.8771]
+Thu 09 Jan 2025 19:20:58 INFO epoch 14 test result: 
+	recall@10: 0.0706    recall@20: 0.1026    ndcg@10: 0.0383    ndcg@20: 0.0464    
+Thu 09 Jan 2025 19:20:58 INFO best result: 
+	recall@10: 0.0708    recall@20: 0.1035    ndcg@10: 0.0384    ndcg@20: 0.0467    
+Thu 09 Jan 2025 19:20:58 INFO best epoch: 
+	recall@10: 13         recall@20: 12         ndcg@10: 13         ndcg@20: 12         
+
+Thu 09 Jan 2025 19:21:12 INFO epoch 15 training [time: 13.99s, train loss: 115.7305]
+Thu 09 Jan 2025 19:21:18 INFO epoch 15 test result: 
+	recall@10: 0.0713    recall@20: 0.1034    ndcg@10: 0.0386    ndcg@20: 0.0468    
+Thu 09 Jan 2025 19:21:23 INFO best result: 
+	recall@10: 0.0713    recall@20: 0.1035    ndcg@10: 0.0386    ndcg@20: 0.0468    
+Thu 09 Jan 2025 19:21:23 INFO best epoch: 
+	recall@10: 15         recall@20: 12         ndcg@10: 15         ndcg@20: 15         
+
+Thu 09 Jan 2025 19:21:37 INFO epoch 16 training [time: 14.10s, train loss: 114.5153]
+Thu 09 Jan 2025 19:21:44 INFO epoch 16 test result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0387    ndcg@20: 0.0469    
+Thu 09 Jan 2025 19:21:51 INFO best result: 
+	recall@10: 0.0718    recall@20: 0.1038    ndcg@10: 0.0387    ndcg@20: 0.0469    
+Thu 09 Jan 2025 19:21:51 INFO best epoch: 
+	recall@10: 16         recall@20: 16         ndcg@10: 16         ndcg@20: 16         
+
+Thu 09 Jan 2025 19:22:05 INFO epoch 17 training [time: 14.09s, train loss: 113.5532]
+Thu 09 Jan 2025 19:22:11 INFO epoch 17 test result: 
+	recall@10: 0.0723    recall@20: 0.1033    ndcg@10: 0.0390    ndcg@20: 0.0468    
+Thu 09 Jan 2025 19:22:16 INFO best result: 
+	recall@10: 0.0723    recall@20: 0.1038    ndcg@10: 0.0390    ndcg@20: 0.0469    
+Thu 09 Jan 2025 19:22:16 INFO best epoch: 
+	recall@10: 17         recall@20: 16         ndcg@10: 17         ndcg@20: 16         
+
+Thu 09 Jan 2025 19:22:30 INFO epoch 18 training [time: 13.97s, train loss: 112.6602]
+Thu 09 Jan 2025 19:22:36 INFO epoch 18 test result: 
+	recall@10: 0.0717    recall@20: 0.1036    ndcg@10: 0.0391    ndcg@20: 0.0472    
+Thu 09 Jan 2025 19:22:39 INFO best result: 
+	recall@10: 0.0723    recall@20: 0.1038    ndcg@10: 0.0391    ndcg@20: 0.0472    
+Thu 09 Jan 2025 19:22:39 INFO best epoch: 
+	recall@10: 17         recall@20: 16         ndcg@10: 18         ndcg@20: 18         
+
+Thu 09 Jan 2025 19:22:53 INFO epoch 19 training [time: 13.99s, train loss: 111.8072]
+Thu 09 Jan 2025 19:23:00 INFO epoch 19 test result: 
+	recall@10: 0.0717    recall@20: 0.1048    ndcg@10: 0.0390    ndcg@20: 0.0473    
+Thu 09 Jan 2025 19:23:04 INFO best result: 
+	recall@10: 0.0723    recall@20: 0.1048    ndcg@10: 0.0391    ndcg@20: 0.0473    
+Thu 09 Jan 2025 19:23:04 INFO best epoch: 
+	recall@10: 17         recall@20: 19         ndcg@10: 18         ndcg@20: 19         
+
+Thu 09 Jan 2025 19:23:18 INFO epoch 20 training [time: 13.89s, train loss: 111.0709]
+Thu 09 Jan 2025 19:23:24 INFO epoch 20 test result: 
+	recall@10: 0.0716    recall@20: 0.1041    ndcg@10: 0.0389    ndcg@20: 0.0472    
+Thu 09 Jan 2025 19:23:24 INFO best result: 
+	recall@10: 0.0723    recall@20: 0.1048    ndcg@10: 0.0391    ndcg@20: 0.0473    
+Thu 09 Jan 2025 19:23:24 INFO best epoch: 
+	recall@10: 17         recall@20: 19         ndcg@10: 18         ndcg@20: 19         
+
+Thu 09 Jan 2025 19:23:38 INFO epoch 21 training [time: 13.97s, train loss: 110.3500]
+Thu 09 Jan 2025 19:23:44 INFO epoch 21 test result: 
+	recall@10: 0.0724    recall@20: 0.1048    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Thu 09 Jan 2025 19:23:49 INFO best result: 
+	recall@10: 0.0724    recall@20: 0.1048    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Thu 09 Jan 2025 19:23:49 INFO best epoch: 
+	recall@10: 21         recall@20: 19         ndcg@10: 21         ndcg@20: 21         
+     
+
+Thu 09 Jan 2025 19:41:32 INFO +++++Finished training, best eval result in epoch 21
+Thu 09 Jan 2025 19:41:32 INFO test result: recall@10: 0.0742    recall@20: 0.1050    ndcg@10: 0.0400    ndcg@20: 0.0478    
+Thu 09 Jan 2025 19:41:32 INFO ████Current BEST████:
+Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+Valid: recall@10: 0.0707    recall@20: 0.1052    ndcg@10: 0.0382    ndcg@20: 0.0470    ,
+Test: recall@10: 0.0724    recall@20: 0.1048    ndcg@10: 0.0395    ndcg@20: 0.0476    
+
+
+
+Thu 09 Jan 2025 19:41:32 INFO 
+============All Over=====================
+Thu 09 Jan 2025 19:41:32 INFO Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+ best valid: recall@10: 0.0707    recall@20: 0.1052    ndcg@10: 0.0382    ndcg@20: 0.0470    ,
+ best test: recall@10: 0.0724    recall@20: 0.1048    ndcg@10: 0.0395    ndcg@20: 0.0476    
+Thu 09 Jan 2025 19:41:32 INFO 
+
+█████████████ BEST ████████████████
+Thu 09 Jan 2025 19:41:32 INFO 	Parameters: ['mm_image_weight', 'k', 'u_layers', 'n_mm_layers', 'knn_k', 'aggr_mode', 'reg_weight', 'learning_rate', 'seed']=(0.1, 30, 1, 1, 5, 'add', 0.01, 0.001, 999),
+Valid: recall@10: 0.0707    recall@20: 0.1052    ndcg@10: 0.0382    ndcg@20: 0.0470    ,
+Test: recall@10: 0.0724    recall@20: 0.1048    ndcg@10: 0.0395    ndcg@20: 0.0476    
+
+
