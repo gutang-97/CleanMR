@@ -12,13 +12,9 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', '-d', type=str, default='baby', help='name of datasets')
 
     config_dict = {
-        #'dropout': [0.2],
-        #'reg_weight': [1e-04, 1e-03],
-        'learning_rate': [1e-3],  #1e-3
-        # 'reg_weight': [0.0001,0.00001],
+        'learning_rate': [1e-3],  
         'reg_weight': [0.01], 
-        #'n_layers': [2],
-        #'reg_weight': [0.01], 
+        'n_layers': [2],
         'gpu_id': 2,
     }
 
