@@ -81,7 +81,6 @@ class CleanMR(GeneralRecommender):
                 del image_adj
             torch.save(self.mm_adj, mm_adj_file)
         
-        # packing interaction in training into edge_index
         train_interactions = dataset.inter_matrix(form='coo').astype(np.float32)                     
         # train_interactions4user = self.add_noise(train_interactions)
         self.ui_graph = self.matrix_to_tensor(self.csr_norm(train_interactions, mean_flag=False))
@@ -173,7 +172,6 @@ class CleanMR(GeneralRecommender):
         noisy_train_interactions.data = np.ones_like(noisy_train_interactions.data)
         return noisy_train_interactions
     
-    
     def pca(self, x, k=2):
         x_mean = torch.mean(x, 0)
         x = x - x_mean
@@ -239,8 +237,6 @@ class CleanMR(GeneralRecommender):
             extend_ui_graph = extend_ui_graph * ui_mask
         extend_ui_graph = (extend_ui_graph > 0).float()
         norm_ext_ui_graph = self.csr_norm(extend_ui_graph,mean_flag=False)
-        
-    
     
     def get_extend_ui_mat(self,mm_embeddings,ui_graph, topk=8):        
         context_norm = mm_embeddings.div(torch.norm(mm_embeddings, p=2, dim=-1, keepdim=True))
@@ -271,7 +267,6 @@ class CleanMR(GeneralRecommender):
         cols_inv_sqrt = r_inv_sqrt[indices[1]]
         values = rows_inv_sqrt * cols_inv_sqrt
         return torch.sparse.FloatTensor(indices, values, adj_size)
-        
         
     def compute_normalized_laplacian(self, indices, adj_size):
         adj = torch.sparse.FloatTensor(indices, torch.ones_like(indices[0]), adj_size)
@@ -332,7 +327,7 @@ class CleanMR(GeneralRecommender):
             t_score = t_score.squeeze(-1)
             v_score = v_score.squeeze(-1)
         return t_score, v_score
-    
+
 
     def forward(self):
 
@@ -373,10 +368,6 @@ class CleanMR(GeneralRecommender):
 
         return user_embed, item_embed, club_loss, 1 * rec_loss, 0.2 * ib_loss
 
-        
-        
-        
-        
 
     def _sparse_dropout(self, x, rate=0.0):
         noise_shape = x._nnz()                                       
@@ -426,7 +417,6 @@ class CleanMR(GeneralRecommender):
         score_matrix = torch.matmul(temp_user_tensor, item_tensor.t())
         return score_matrix
 
-
 class Modal_Reviewer(torch.nn.Module):
     def __init__(self,num_user, num_item, dim_latent, n_interests, t_dim=None, v_dim =None, a_dim=None, dense_adj=None, select_value=0.3):
         super(Modal_Reviewer,self).__init__()
@@ -442,9 +432,7 @@ class Modal_Reviewer(torch.nn.Module):
         self.t_dim = t_dim
         self.v_dim = v_dim
         self.a_dim = a_dim
-        
-
-    
+            
     def forward(self,modal_feat,preference_list):
         preference = sum(preference_list) / len(preference_list)   
         # muti_preference = self._multi_interests(preference)        
@@ -456,8 +444,6 @@ class Modal_Reviewer(torch.nn.Module):
             feat_score = (score_mat.sum(dim=1)/(self.dense_adj_mask.sum(dim=1) + +self.dense_adj_bool)).unsqueeze(1)               
             review_list.append(feat_score)        
         return   torch.cat(review_list,dim=1)        
-
-        
         
 class User_Graph_sample(torch.nn.Module):
     def __init__(self, num_user, aggr_mode,dim_latent):
@@ -474,7 +460,6 @@ class User_Graph_sample(torch.nn.Module):
         u_pre = torch.matmul(user_matrix,u_features)
         u_pre = u_pre.squeeze()
         return u_pre                           #(19445,128)
-
 
 class GCN(torch.nn.Module):
     def __init__(self,datasets, batch_size, num_user, num_item, dim_id, aggr_mode, num_layer, has_id, dropout,
@@ -510,7 +495,6 @@ class GCN(torch.nn.Module):
     
         return x_hat
 
-
 class Base_gcn(MessagePassing):
     def __init__(self, in_channels, out_channels, normalize=True, bias=True, aggr='add', **kwargs):
         super(Base_gcn, self).__init__(aggr=aggr, **kwargs)
@@ -539,7 +523,6 @@ class Base_gcn(MessagePassing):
 
     def __repr(self):
         return '{}({},{})'.format(self.__class__.__name__, self.in_channels, self.out_channels)
-
 
 class Linears(torch.nn.Module):
     def __init__(self,inp_dim, out_dim, ln=True) :
@@ -760,7 +743,6 @@ class CLUB(nn.Module):
         negative_log_likelihood = -(((shuffled_x_spe - mu)**2 / (logvar.exp() + 1) + logvar).sum(dim=1).mean(dim=0))
     
         club_loss = log_likelihood - 2 * negative_log_likelihood
-
     
         total_loss = club_loss 
 
